@@ -20,6 +20,9 @@ const App = () => {
   const [starSpeed, setStarSpeed] = useState(3);
   const starSpeedRef = useRef(starSpeed);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -240,14 +243,14 @@ const App = () => {
               </div>
             </div>
             <div className="flex flex-wrap gap-4 pt-7">
-              <button className="bg-white text-black px-7 py-2 rounded-button rounded-2xl flex items-center cursor-pointer hover:bg-gray-200 transition-colors whitespace-nowrap">
+              {/* <button className="bg-white text-black px-7 py-2 rounded-button rounded-2xl flex items-center cursor-pointer hover:bg-gray-200 transition-colors whitespace-nowrap">
                 <span>See Resume</span>
                 <i className="fas fa-arrow-right ml-2"></i>
-              </button>
+              </button> */}
               <div className="flex items-center text-green-400 cursor-pointer">
                 <span className="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
                 <span className="whitespace-nowrap">
-                  Available for Freelancing
+                  Available for Collaboration!
                 </span>
               </div>
             </div>
@@ -265,7 +268,7 @@ const App = () => {
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-4 py-2 rounded-button cursor-pointer transition-colors whitespace-nowrap ${activeTab === tab
+                className={`px-4 py-2 rounded-button rounded-2xl cursor-pointer transition-colors whitespace-nowrap ${activeTab === tab
                   ? "bg-white text-black"
                   : "text-gray-400 hover:text-white"
                   }`}
@@ -279,7 +282,7 @@ const App = () => {
             {filteredProjects.map((project) => (
               <div
                 key={project.id}
-                className="group relative bg-transparent backdrop-blur-sm rounded-xl border border-white overflow-hidden cursor-pointer transform transition-transform hover:scale-105"
+                className="group relative bg-transparent backdrop-blur-sm rounded-xl border border-gray-800 overflow-hidden cursor-pointer transform transition-transform hover:scale-105"
               >
                 {/* Image Container */}
                 <div className="h-48 overflow-hidden relative">
@@ -334,7 +337,10 @@ const App = () => {
           <p className="text-gray-400 mb-8">
             I'm also open to full-time or part-time opportunities.
           </p>
-          <button className="bg-white text-black px-6 py-2 rounded-button inline-flex items-center cursor-pointer hover:bg-gray-200 transition-colors whitespace-nowrap mx-auto rounded-xl ">
+          <button
+            onClick={openModal}
+            className="bg-white text-black px-6 py-2 rounded-button inline-flex items-center cursor-pointer hover:bg-gray-200 transition-colors whitespace-nowrap mx-auto rounded-xl"
+          >
             <span>Let's Talk</span>
             <i className="fas fa-arrow-right ml-2"></i>
           </button>
@@ -347,6 +353,32 @@ const App = () => {
           </div>
         </div>
       </div>
+
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md flex items-center justify-center">
+          {/* Modal Card */}
+          <div className="bg-white text-black rounded-2xl border border-white p-8 w-80 shadow-lg relative">
+            <button
+              onClick={closeModal}
+              className="absolute top-2 right-2 text-gray-500 hover:text-black transition"
+            >
+              <i className="fas fa-times"></i>
+            </button>
+            <h2 className="text-2xl font-normal mb-4 text-center">Let's build it!</h2>
+            <div className="space-y-4 text-center">
+              <div className="flex items-center justify-center gap-3 text-sm">
+                <i className="fas fa-phone-alt"></i>
+                <span>+91 6380 989 583</span>
+              </div>
+              <div className="flex items-center justify-center gap-3 text-sm">
+                <i className="fas fa-envelope"></i>
+                <span> rajkiranvignesh369@gmail.com</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
