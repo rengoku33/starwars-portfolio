@@ -16,7 +16,11 @@ import imageify from "./assets/imageify.webp"
 // }
 const App = () => {
   const [activeTab, setActiveTab] = useState("All");
-const canvasRef = useRef(null);
+  const canvasRef = useRef(null);
+  const [starSpeed, setStarSpeed] = useState(3);
+  const starSpeedRef = useRef(starSpeed);
+
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -24,9 +28,9 @@ const canvasRef = useRef(null);
     if (!ctx) return;
     let animationFrameId;
     const stars = [];
-    const STAR_COUNT = 900;
-    const STAR_SPEED = 0.77;
-    const MAX_DEPTH = 1000;
+    const STAR_COUNT = 333;
+    // const STAR_SPEED = 5;
+    const MAX_DEPTH = 1200;
     const initStars = () => {
       for (let i = 0; i < STAR_COUNT; i++) {
         stars.push({
@@ -37,10 +41,12 @@ const canvasRef = useRef(null);
         });
       }
     };
+
+    starSpeedRef.current = starSpeed;
     const moveStars = () => {
       stars.forEach((star) => {
         star.prevZ = star.z;
-        star.z = star.z - STAR_SPEED;
+        star.z = star.z - starSpeedRef.current;
         if (star.z <= 1) {
           star.z = MAX_DEPTH;
           star.prevZ = MAX_DEPTH;
@@ -86,7 +92,7 @@ const canvasRef = useRef(null);
       window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [starSpeed]);
   // Project data
   const projects = [
     {
@@ -96,7 +102,9 @@ const canvasRef = useRef(null);
       description:
         "An ecommerce platform for clothing.",
       image:
-        thriftshop
+        thriftshop,
+      github: "https://github.com/rengoku33/ThriftShop",
+      demo: "https://the-thrift-shop.netlify.app/"
     },
     {
       id: 2,
@@ -104,7 +112,9 @@ const canvasRef = useRef(null);
       category: "AI",
       description: "An AI image generator",
       image:
-        imageify
+        imageify,
+      github: "https://github.com/rengoku33/cine-img-gen-frontend",
+      demo: "https://imagify-frontend-sage.vercel.app/"
     },
     {
       id: 3,
@@ -112,7 +122,9 @@ const canvasRef = useRef(null);
       category: "App",
       description: "A Weather app with SSG",
       image:
-        celestial
+        celestial,
+      github: "https://github.com/rengoku33/Celestial-Cast",
+      demo: "https://celestial-cast.vercel.app/"
     },
     {
       id: 4,
@@ -120,7 +132,9 @@ const canvasRef = useRef(null);
       category: "App",
       description: "Inventory management application",
       image:
-        witcher
+        witcher,
+      github: "https://github.com/rengoku33/witcher-alchemy",
+      demo: "https://github.com/rengoku33/witcher-alchemy/blob/main/README.md"
     },
     {
       id: 5,
@@ -128,7 +142,9 @@ const canvasRef = useRef(null);
       category: "Landing pages",
       description: "A portfolio based website",
       image:
-        port
+        port,
+      github: "https://github.com/rengoku33/Portfolio",
+      demo: "https://kiran-vignesh-portfolio.netlify.app/"
     },
   ];
   const filteredProjects =
@@ -136,7 +152,7 @@ const canvasRef = useRef(null);
       ? projects
       : projects.filter((project) => project.category === activeTab);
   return (
-    <div className="relative min-h-screen text-white font-sans">
+    <div className="relative min-h-screen text-white font-sans mt-5">
       {/* Animated Background */}
       <canvas
         ref={canvasRef}
@@ -160,7 +176,7 @@ const canvasRef = useRef(null);
             </p>
             <div className="flex space-x-4">
               <a
-                href="https://github.com/rengoku33"
+                href="https://www.linkedin.com/in/kiran-vignesh-61339a225/"
                 className="cursor-pointer text-black hover:text-green-600 transition-colors pr-7"
               >
                 <i className="fab fa-linkedin text-xl"></i>
@@ -180,11 +196,26 @@ const canvasRef = useRef(null);
             </div>
           </div>
           {/* Right Introduction Card */}
-          <div className="bg-transparent backdrop-blur-sm rounded-xl border border-white p-8 w-full md:w-2/3">
+          <div className="bg-transparent backdrop-blur-sm rounded-2xl border border-white p-8 w-full md:w-2/3">
             <div className="mb-4">
               <p className="text-gray-400">
-                Hello There <span className="text-yellow-400">👋</span>
+                Fuel’s full, vibes are stellar. Punch it <span className="text-yellow-400">🚀</span>
               </p>
+              <div className="flex items-center gap-4 mb-4">
+                <label htmlFor="speed" className="text-white">Spaceship Speed:</label>
+                <input
+                  id="speed"
+                  type="range"
+                  min="1"
+                  max="100"
+                  value={starSpeed}
+                  onChange={(e) => setStarSpeed(Number(e.target.value))}
+                  className="w-48"
+                />
+                <span className="text-white">{starSpeed * 100} mph</span>
+              </div>
+
+
               <h2 className="text-3xl font-normal mb-2">
                 I'm Kiran,{" "}
                 <span className="text-gray-400">
@@ -194,21 +225,21 @@ const canvasRef = useRef(null);
               </h2>
             </div>
             <div className="mb-12 mt-12">
-              <p className="text-gray-400 mb-2">
+              <p className="text-gray-400 mb-3">
                 Products I have contributed to:
               </p>
               <div className="flex space-x-6">
                 <div className="text-white font-bold border-[7px] border-white rounded-3xl">
                   {/* <i className="fas fa-arrow-right mr-2"></i>LONGSHOT */}
-                  <img src={intellect} width="160" className="rounded-xl" alt="intellect"/>
+                  <img src={intellect} width="160" className="rounded-xl" alt="intellect" />
                 </div>
                 <div className="text-white font-bold border-[10px] border-white rounded-3xl">
                   {/* <i className="fas fa-info-circle mr-2"></i>INFO */}
-                  <img src={catalyst} width="160" className="rounded-xl " alt="catalyst"/>
+                  <img src={catalyst} width="160" className="rounded-xl " alt="catalyst" />
                 </div>
               </div>
             </div>
-            <div className="flex flex-wrap gap-4 pt-7 items-center">
+            <div className="flex flex-wrap gap-4 pt-7">
               <button className="bg-white text-black px-7 py-2 rounded-button rounded-2xl flex items-center cursor-pointer hover:bg-gray-200 transition-colors whitespace-nowrap">
                 <span>See Resume</span>
                 <i className="fas fa-arrow-right ml-2"></i>
@@ -223,22 +254,21 @@ const canvasRef = useRef(null);
           </div>
         </div>
         {/* Projects Section */}
-        <div className="bg-transparent backdrop-blur-sm rounded-xl border border-white p-8 mb-16">
+        <div className="bg-transparent backdrop-blur-sm rounded-2xl border border-white p-8 mb-16">
           <h2 className="text-5xl font-medium mb-2 text-center">Projects</h2>
           <p className="text-gray-400 mb-8 text-center mt-5">
-            Some of my personal projects built with love and dedication
+            Some of my personal projects built with passion and dedication
           </p>
           {/* Filter Tabs */}
-          <div className="flex flex-wrap gap-4 mb-8 border-b border-gray-800 pb-4">
+          <div className="flex flex-wrap gap-4 mb-8 border-b border-gray-800 pb-4 justify-center rounded-xl">
             {["All", "App", "Ecommerce", "Landing pages", "AI"].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-4 py-2 rounded-button cursor-pointer transition-colors whitespace-nowrap ${
-                  activeTab === tab
-                    ? "bg-white text-black"
-                    : "text-gray-400 hover:text-white"
-                }`}
+                className={`px-4 py-2 rounded-button cursor-pointer transition-colors whitespace-nowrap ${activeTab === tab
+                  ? "bg-white text-black"
+                  : "text-gray-400 hover:text-white"
+                  }`}
               >
                 {tab}
               </button>
@@ -249,19 +279,42 @@ const canvasRef = useRef(null);
             {filteredProjects.map((project) => (
               <div
                 key={project.id}
-                className="bg-transparent backdrop-blur-sm rounded-xl border border-white overflow-hidden cursor-pointer transform transition-transform hover:scale-105"
+                className="group relative bg-transparent backdrop-blur-sm rounded-xl border border-white overflow-hidden cursor-pointer transform transition-transform hover:scale-105"
               >
-                <div className="h-48 overflow-hidden">
+                {/* Image Container */}
+                <div className="h-48 overflow-hidden relative">
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="w-full h-full object-cover object-top transition-transform hover:scale-110"
+                    className="w-full h-full object-cover object-top transition-all duration-300 group-hover:blur-sm"
                   />
+
+                  {/* Overlay Buttons */}
+                  <div className="absolute inset-0 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40">
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded-full font-medium hover:bg-gray-200 transition-colors"
+                    >
+                      <i className="fab fa-github"></i>
+                      GitHub
+                    </a>
+                    <a
+                      href={project.demo}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded-full font-medium hover:bg-gray-200 transition-colors"
+                    >
+                      <i className="fas fa-external-link-alt"></i>
+                      Project
+                    </a>
+                  </div>
                 </div>
+
+                {/* Project Info */}
                 <div className="p-4">
-                  <span className="text-xs text-gray-400">
-                    {project.category}
-                  </span>
+                  <span className="text-xs text-gray-400">{project.category}</span>
                   <h3 className="text-xl font-bold mb-2">{project.title}</h3>
                   <p className="text-gray-400">{project.description}</p>
                 </div>
@@ -270,28 +323,27 @@ const canvasRef = useRef(null);
           </div>
         </div>
         {/* CTA Section */}
-        <div className="bg-transparent backdrop-blur-sm rounded-xl border border-white p-8 text-center mb-8">
-          <h2 className="text-3xl font-bold mb-4">
+        <div className="bg-transparent backdrop-blur-sm rounded-2xl border border-white p-16 text-center mb-12">
+          <h2 className="text-4xl font-normal mb-4">
             Ready to kickstart your project?
           </h2>
-          <p className="text-gray-400 mb-6">
+          <p className="text-gray-400 mb-1">
             Reach out and let's make it happen{" "}
             <span className="text-yellow-400">💥</span>
           </p>
           <p className="text-gray-400 mb-8">
             I'm also open to full-time or part-time opportunities.
           </p>
-          <button className="bg-white text-black px-6 py-3 rounded-button inline-flex items-center cursor-pointer hover:bg-gray-200 transition-colors whitespace-nowrap mx-auto">
+          <button className="bg-white text-black px-6 py-2 rounded-button inline-flex items-center cursor-pointer hover:bg-gray-200 transition-colors whitespace-nowrap mx-auto rounded-xl ">
             <span>Let's Talk</span>
             <i className="fas fa-arrow-right ml-2"></i>
           </button>
         </div>
         {/* Footer */}
         <div className="flex flex-col md:flex-row justify-between items-center text-gray-400 py-4">
-          <div>Copyright ©2024 All Rights Reserved.</div>
+          <div>Copyright ©2025 All Rights Reserved.</div>
           <div className="flex items-center">
-            Built with <i className="fas fa-heart text-red-500 mx-2"></i> Subham
-            Mohanty
+            Built with <i className="fas fa-heart text-red-500 mx-2"></i> Kiran Vignesh
           </div>
         </div>
       </div>
